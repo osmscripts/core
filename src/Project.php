@@ -72,8 +72,8 @@ class Project extends Object_
     }
 
 
-    protected function verifyNoUncommittedChangesInDirectory($path) {
-        if (!is_dir("{$path}/.git")) {
+    public function verifyNoUncommittedChangesInDirectory($path) {
+        if (!is_dir($path ? "{$path}/.git" : '.git')) {
             return;
         }
 
