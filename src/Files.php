@@ -116,4 +116,15 @@ class Files extends Object_
         unlink($link);
         $this->output->writeln("! {$link} link deleted");
     }
+
+    public function delete($filename) {
+        if (!is_file($filename)) {
+            return;
+        }
+
+        unlink($filename);
+
+        $this->output->writeln("! {$filename} deleted");
+    }
+
 }
