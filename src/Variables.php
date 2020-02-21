@@ -60,7 +60,10 @@ class Variables extends Object_
         // make sure data is read from the file
         $this->data;
 
-        $this->data[$variable] = $value;
+        if (isset($this->data[$variable]) && !is_string($this->data[$variable])) {
+            throw new \Exception("Can't set non-string variable '{$variable}'");
+        }
+
         $this->dirty = true;
     }
 
@@ -72,6 +75,10 @@ class Variables extends Object_
     public function unset($variable) {
         // make sure data is read from the file
         $this->data;
+
+        if (isset($this->data[$variable]) && !is_string($this->data[$variable])) {
+            throw new \Exception("Can't unset non-string variable '{$variable}'");
+        }
 
         unset($this->data[$variable]);
         $this->dirty = true;

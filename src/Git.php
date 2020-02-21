@@ -37,8 +37,12 @@ class Git extends Object_
         $this->shell->run("git remote add origin {$url}");
     }
 
-    public function push() {
-        $this->shell->run('git push -u origin master');
+    public function push($branch = 'master', $remote = 'origin') {
+        $this->shell->run("git push -u {$remote} {$branch}");
+    }
+
+    public function pushTags($remote = 'origin') {
+        $this->shell->run("git push {$remote} --tags");
     }
 
     public function getUncommittedFiles() {
@@ -79,5 +83,37 @@ class Git extends Object_
 
     public function getLatestTag() {
         return $this->shell->output('git describe --tags')[0];
+    }
+
+    public function getCommitMessagesSince($commit) {
+        return $this->shell->output("git log {$commit}.. --format=%s");
+
+    }
+
+    public function getTags() {
+        return $this->shell->output('git tag');
+    }
+
+    public function createTag(string $tag) {
+        $this->shell->run("git tag {$tag}");
+    }
+
+    public function remoteBranchExists($branch, $remote = 'origin') {
+        $refs = $this->shell->output('git branch -r --format=%(refname)');
+        foreach ($refs as $ref) {
+            if ($ref == "refs/remotes/{$remote}/{$branch}") {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function merge($branch) {
+        $this->shell->run("git merge {$branch}");
+    }
+
+    public function config($config) {
+        return $this->shell->output("git config --get {$config}")[0] ?? '';
     }
 }

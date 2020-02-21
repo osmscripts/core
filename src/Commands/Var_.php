@@ -59,7 +59,13 @@ class Var_ extends Command
         $arguments = $this->input->getArgument('variable');
         if (empty($arguments)) {
             foreach ($this->variables->all() as $variable => $value) {
-                $this->output->writeln("$variable=$value");
+                if (is_string($value)) {
+                    $this->output->writeln("$variable=$value");
+                }
+                else {
+                    $this->output->writeln("$variable= " .
+                        json_encode($value, JSON_PRETTY_PRINT));
+                }
             }
         }
         else {

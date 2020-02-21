@@ -3,6 +3,7 @@
 namespace OsmScripts\Core;
 
 use Exception;
+use OsmScripts\Core\Hints\ComposerJsonHint;
 use OsmScripts\Core\Hints\ComposerLockHint;
 use OsmScripts\Core\Hints\PackageHint;
 
@@ -10,6 +11,7 @@ use OsmScripts\Core\Hints\PackageHint;
  * Information about Composer project in $path directory
  *
  * @property string $path @required Project's path
+ * @property object|ComposerJsonHint $json @required Contents of project's `composer.json` file
  * @property object|ComposerLockHint $lock @required Contents of project's `composer.lock` file
  * @property Package[] $packages @required Package information from package `composer.json` files
  * @property bool $current @required True if currently executed script is defined in this project
@@ -26,6 +28,7 @@ class Project extends Object_
         global $script;
 
         switch ($property) {
+            case 'json': return $this->getComposerJson();
             case 'lock': return $this->getComposerLock();
             case 'packages': return $this->getPackages();
             case 'current': return $script->path === $this->path;
@@ -40,6 +43,10 @@ class Project extends Object_
 
     protected function getComposerLock() {
         return $this->utils->readJsonOrFail("{$this->path}/composer.lock");
+    }
+
+    protected function getComposerJson() {
+        return $this->utils->readJsonOrFail("{$this->path}/composer.json");
     }
 
     protected function getPackages() {
