@@ -60,8 +60,8 @@ class Git extends Object_
     }
 
     /**
-     * Returns number of Git commits local Git repo is behind (if result is positive
-     * number) or ahead (if result is negative number)
+     * Returns number of Git commits local Git repo is behind (if result is
+     * positive number) or ahead (if result is negative number)
      *
      * @return int
      */
