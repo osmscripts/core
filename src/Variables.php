@@ -64,6 +64,7 @@ class Variables extends Object_
             throw new \Exception("Can't set non-string variable '{$variable}'");
         }
 
+        $this->data[$variable] = $value;
         $this->dirty = true;
     }
 
