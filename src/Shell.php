@@ -77,6 +77,16 @@ class Shell extends Object_
         }
     }
 
+
+    public function is($command) {
+        if ($this->user && PHP_OS_FAMILY == 'Linux') {
+            $command = "su -s /bin/bash -c " . escapeshellarg($command) . " {$this->user}";
+        }
+
+        passthru($command, $exitCode);
+        return $exitCode ? false : true;
+    }
+
     /**
      * Runs specified shell command and returns its output as array of strings.
      * If command fails, this script stops.
