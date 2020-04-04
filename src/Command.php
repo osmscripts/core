@@ -42,7 +42,9 @@ class Command extends BaseCommand
         $script->input = $this->input = $input;
         $script->output = $this->output = $output;
 
-        $this->handle();
+        return $this->handle() ?? 0;
+
+
     }
 
     protected function handle() {
