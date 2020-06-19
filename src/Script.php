@@ -87,6 +87,14 @@ class Script extends Object_
     }
     #endregion
 
+    public function __construct($data = []) {
+        error_reporting(-1);
+        set_error_handler([$this, 'handleError']);
+        ini_set('display_errors', 'Off');
+
+        parent::__construct($data);
+    }
+
     protected $singletons = [];
 
     /**
@@ -116,5 +124,13 @@ class Script extends Object_
         $this->cwd = $this->path;
         chdir($this->cwd);
         $this->output->writeln("> cd {$this->cwd}");
+    }
+
+    public function handleError($level, $message, $file = '', $line = 0,
+        $context = [])
+    {
+        if (error_reporting() & $level) {
+            throw new \ErrorException($message, 0, $level, $file, $line);
+        }
     }
 }
