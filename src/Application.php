@@ -35,8 +35,12 @@ class Application extends BaseApplication
             }
 
             $this->cd($cwd, $output);
-        } elseif ($script->global == Script::GLOBAL_UPON_REQUEST &&
+        }
+        elseif ($script->global == Script::GLOBAL_UPON_REQUEST &&
             ($input->hasParameterOption(['--global', '-g'], true) === true)) {
+            $this->cd($script->path, $output);
+        }
+        elseif ($script->global == Script::GLOBAL_ALWAYS) {
             $this->cd($script->path, $output);
         }
     }
